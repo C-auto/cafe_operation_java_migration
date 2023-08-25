@@ -4,22 +4,53 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.cafeop.api.common.error.ErrorCode;
+import org.cafeop.api.common.error.ErrorCodeIfs;
 
+@Slf4j
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Result {
 
-    private Integer resultCode;
+    private Integer code;
 
-    private String resultMessage;
+    private String message;
 
     public static Result ok() {
         return Result.builder()
-                .resultCode(200)
-                .resultMessage("ok")
+                .code(200)
+                .message("ok")
                 .build();
     }
 
+    public static Result ERROR(ErrorCodeIfs errorCodeIfs) {
+        return Result.builder()
+                .code(errorCodeIfs.getErrorCode())
+                .message(errorCodeIfs.getMessage())
+                .build();
+    }
+
+    public static Result ERROR(ErrorCodeIfs errorCodeIfs, Throwable tx) {
+        error_logging(tx.getLocalizedMessage());
+        return Result.builder()
+                .code(errorCodeIfs.getErrorCode())
+                .message(errorCodeIfs.getMessage())
+                .build();
+    }
+
+    public static Result ERROR(ErrorCodeIfs errorCodeIfs, String description) {
+        error_logging(description);
+        return Result.builder()
+                .code(errorCodeIfs.getErrorCode())
+                .message(errorCodeIfs.getMessage())
+                .build();
+    }
+
+
+    static void error_logging(String errorDescription) {
+        log.error("Error Description : {}", errorDescription);
+    }
 }
