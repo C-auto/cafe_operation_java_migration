@@ -34,23 +34,19 @@ public class Result {
     }
 
     public static Result ERROR(ErrorCodeIfs errorCodeIfs, Throwable tx) {
-        error_logging(tx.getLocalizedMessage());
         return Result.builder()
                 .code(errorCodeIfs.getErrorCode())
                 .message(errorCodeIfs.getMessage())
                 .build();
     }
 
-    public static Result ERROR(ErrorCodeIfs errorCodeIfs, String description) {
-        error_logging(description);
+    public static Result ERROR(ErrorCodeIfs errorCodeIfs, String detailMessage) {
         return Result.builder()
                 .code(errorCodeIfs.getErrorCode())
-                .message(errorCodeIfs.getMessage())
+                .message(detailMessage)
                 .build();
     }
 
 
-    static void error_logging(String errorDescription) {
-        log.error("Error Description : {}", errorDescription);
-    }
+
 }

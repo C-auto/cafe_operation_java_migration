@@ -1,6 +1,8 @@
 package org.cafeop.api.domain.user.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.cafeop.api.common.error.ErrorCode;
+import org.cafeop.api.common.exception.ApiException;
 import org.cafeop.api.common.response.Api;
 import org.cafeop.api.domain.user.controller.model.UserResponse;
 import org.cafeop.db.user.UserRepository;
@@ -22,6 +24,15 @@ public class UserOpenApiController {
                 .password("1234")
                 .registeredAt(LocalDateTime.now())
                 .build();
+
+        // Exception test
+        var str = "hello";
+        try {
+            Integer.parseInt(str);
+        } catch (Exception e) {
+            throw new ApiException(ErrorCode.SERVER_ERROR, e);
+        }
+
         return Api.ok(response);
     }
 }
