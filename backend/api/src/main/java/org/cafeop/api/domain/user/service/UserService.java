@@ -2,6 +2,7 @@ package org.cafeop.api.domain.user.service;
 
 import lombok.RequiredArgsConstructor;
 import org.cafeop.api.common.error.ErrorCode;
+import org.cafeop.api.common.error.UserErrorCode;
 import org.cafeop.api.common.exception.ApiException;
 import org.cafeop.db.user.UserEntity;
 import org.cafeop.db.user.UserRepository;
@@ -23,6 +24,17 @@ public class UserService {
                     userEntity.setRegisteredAt(LocalDateTime.now());
                     return userRepository.save(userEntity);
                 }).orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT, "User Entity Null"));
+    }
+
+    public UserEntity login(
+            String phoneNumber,
+            String password
+    ) {
+        return userRepository.findFirstByPhoneNumberAndPasswordAndStatusOrderBySeqDesc(
+                phoneNumber,
+                password,
+                UserStatus.REGISTERED
+        ).orElseThrow(() -> new ApiException(UserErrorCode.USER_NOT_FOUND));
     }
 
 
