@@ -4,11 +4,16 @@ import lombok.RequiredArgsConstructor;
 import org.cafeop.api.common.annotation.Business;
 import org.cafeop.api.domain.jwt.business.TokenBusiness;
 import org.cafeop.api.domain.jwt.model.TokenResponse;
+import org.cafeop.api.domain.user.controller.model.User;
 import org.cafeop.api.domain.user.controller.model.UserLoginRequest;
 import org.cafeop.api.domain.user.controller.model.UserRegisterRequest;
 import org.cafeop.api.domain.user.controller.model.UserResponse;
 import org.cafeop.api.domain.user.converter.UserConverter;
 import org.cafeop.api.domain.user.service.UserService;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+
+import java.util.Objects;
 
 @Business
 @RequiredArgsConstructor
@@ -33,6 +38,11 @@ public class UserBusiness {
     public TokenResponse login(UserLoginRequest request) {
         var entity = userService.login(request.getPhoneNumber(), request.getPassword());
         return tokenBusiness.issueToken(entity);
+    }
+
+    public UserResponse tokenTest(User user) {
+        var userEntity = userService.getUserWithThrow(user.getPhoneNumber());
+        return userConverter.toResponse(userEntity);
     }
 
 }

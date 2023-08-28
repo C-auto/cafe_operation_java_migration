@@ -37,5 +37,10 @@ public class UserService {
         ).orElseThrow(() -> new ApiException(UserErrorCode.USER_NOT_FOUND));
     }
 
+    public UserEntity getUserWithThrow(String phoneNumber) {
+        return userRepository.findFirstByPhoneNumberAndStatusOrderBySeqDesc(phoneNumber, UserStatus.REGISTERED)
+                .orElseThrow(() -> new ApiException(UserErrorCode.USER_NOT_FOUND));
+    }
+
 
 }

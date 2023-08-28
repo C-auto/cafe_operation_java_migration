@@ -10,4 +10,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     // SELECT * FROM user_auth WHERE phone_number = ? AND password = ? AND status = ? ORDER BY seq DESC LIMIT 1
     Optional<UserEntity> findFirstByPhoneNumberAndPasswordAndStatusOrderBySeqDesc(String phoneNumber, String password, UserStatus status);
 
+    // SELECT * FROM user_auth WHERE phone_number = ? AND status =? ORDER By seq DESC LIMIT 1
+    Optional<UserEntity> findFirstByPhoneNumberAndStatusOrderBySeqDesc(String phoneNumber, UserStatus status);
 }

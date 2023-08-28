@@ -29,4 +29,8 @@ public class TokenBusiness {
                     return tokenConverter.toResponse(accessToken,refreshToken);
                 }).orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT));
     }
+
+    public String validationAccessToken(String accessToken) {
+        return tokenService.validationToken(accessToken);
+    }
 }
