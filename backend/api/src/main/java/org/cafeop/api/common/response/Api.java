@@ -23,6 +23,13 @@ public class Api<T> {
         return api;
     }
 
+    public static Api<Object> ERROR(String errorMessage) {
+        var api = new Api<Object>();
+        api.meta = Result.ERROR(errorMessage);
+        api.data = null;
+        return api;
+    }
+
     public static Api<Object> ERROR(ErrorCodeIfs errorCodeIfs) {
         var api = new Api<Object>();
         api.meta = Result.ERROR(errorCodeIfs);

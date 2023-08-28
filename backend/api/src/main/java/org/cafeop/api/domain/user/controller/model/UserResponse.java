@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 public class UserResponse {
     private String phoneNumber;
 
-    private String password;
+//    private String password;
 
     private LocalDateTime registeredAt;
 }
