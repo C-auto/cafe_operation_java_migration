@@ -3,6 +3,7 @@ package org.cafeop.api.domain.user.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.cafeop.api.common.response.Api;
+import org.cafeop.api.domain.jwt.model.TokenResponse;
 import org.cafeop.api.domain.user.business.UserBusiness;
 import org.cafeop.api.domain.user.controller.model.UserLoginRequest;
 import org.cafeop.api.domain.user.controller.model.UserRegisterRequest;
@@ -31,7 +32,7 @@ public class UserOpenApiController {
     }
 
     @PostMapping("/login")
-    public Api<UserResponse> login(
+    public Api<TokenResponse> login(
             @Valid
             @RequestBody Api<UserLoginRequest> request
     ) {

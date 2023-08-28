@@ -2,6 +2,8 @@ package org.cafeop.api.domain.user.business;
 
 import lombok.RequiredArgsConstructor;
 import org.cafeop.api.common.annotation.Business;
+import org.cafeop.api.domain.jwt.business.TokenBusiness;
+import org.cafeop.api.domain.jwt.model.TokenResponse;
 import org.cafeop.api.domain.user.controller.model.UserLoginRequest;
 import org.cafeop.api.domain.user.controller.model.UserRegisterRequest;
 import org.cafeop.api.domain.user.controller.model.UserResponse;
@@ -13,6 +15,7 @@ import org.cafeop.api.domain.user.service.UserService;
 public class UserBusiness {
     private final UserService userService;
     private final UserConverter userConverter;
+    private final TokenBusiness tokenBusiness;
 
     /*
     * 1. 사용자 입력 Request -> entity
@@ -27,9 +30,9 @@ public class UserBusiness {
 
     }
 
-    public UserResponse login(UserLoginRequest request) {
+    public TokenResponse login(UserLoginRequest request) {
         var entity = userService.login(request.getPhoneNumber(), request.getPassword());
-        return userConverter.toResponse(entity);
+        return tokenBusiness.issueToken(entity);
     }
 
 }
