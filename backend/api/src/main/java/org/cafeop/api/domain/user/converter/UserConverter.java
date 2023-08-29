@@ -18,7 +18,7 @@ public class UserConverter {
         return Optional.ofNullable(request)
                 .map(it -> {
                     return UserEntity.builder()
-                            .phoneNumber(request.getPhone_number())
+                            .phoneNumber(request.getPhoneNumber())
                             .password(request.getPassword())
                             .build();
                 }).orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT, "UserRegisterRequest Null."));
