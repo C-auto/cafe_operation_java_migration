@@ -7,6 +7,10 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.cafeop.api.common.error.ErrorCode;
 import org.cafeop.api.common.error.ErrorCodeIfs;
+import org.springframework.http.HttpStatus;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Slf4j
 @Data
@@ -23,6 +27,13 @@ public class Result {
         return Result.builder()
                 .code(200)
                 .message("ok")
+                .build();
+    }
+
+    public static Result ERROR(String errorMessage) {
+        return Result.builder()
+                .code(400)
+                .message(errorMessage)
                 .build();
     }
 

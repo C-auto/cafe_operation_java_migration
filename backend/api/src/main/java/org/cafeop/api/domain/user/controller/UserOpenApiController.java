@@ -1,38 +1,42 @@
 package org.cafeop.api.domain.user.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.cafeop.api.common.error.ErrorCode;
-import org.cafeop.api.common.exception.ApiException;
+import lombok.extern.slf4j.Slf4j;
 import org.cafeop.api.common.response.Api;
+import org.cafeop.api.domain.jwt.model.TokenResponse;
+import org.cafeop.api.domain.user.business.UserBusiness;
+import org.cafeop.api.domain.user.controller.model.UserLoginRequest;
+import org.cafeop.api.domain.user.controller.model.UserRegisterRequest;
 import org.cafeop.api.domain.user.controller.model.UserResponse;
-import org.cafeop.db.user.UserRepository;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
+import javax.validation.Valid;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/open-api/user")
 public class UserOpenApiController {
 
-    @GetMapping("/test")
-    public Api<UserResponse> test() {
-        var response = UserResponse.builder()
-                .phoneNumber("010-8892-1870")
-                .password("1234")
-                .registeredAt(LocalDateTime.now())
-                .build();
+    private final UserBusiness userBusiness;
 
-        // Exception test
-        var str = "hello";
-        try {
-            Integer.parseInt(str);
-        } catch (Exception e) {
-            throw new ApiException(ErrorCode.SERVER_ERROR, e);
-        }
 
+    @PostMapping("/register")
+    public Api<UserResponse> register(
+            @Valid
+            @RequestBody Api<UserRegisterRequest> request
+    ) {
+        var response = userBusiness.register(request.getData());
+        return Api.ok(response);
+
+    }
+
+    @PostMapping("/login")
+    public Api<TokenResponse> login(
+            @Valid
+            @RequestBody Api<UserLoginRequest> request
+    ) {
+        var response = userBusiness.login(request.getData());
         return Api.ok(response);
     }
 }
